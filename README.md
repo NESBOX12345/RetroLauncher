@@ -1,5 +1,7 @@
 # MimicUI
 
+Electron base app to automatize the use of emulators on PC
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.6.
 
 ## Development server
