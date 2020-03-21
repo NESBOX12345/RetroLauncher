@@ -1,6 +1,22 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <h1>
-    <span>{{ welcome }}</span>
-    {{ title }}
-  </h1>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div
+      class="lines"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      @showOnScreen
+      @scaleViewport
+    >
+      <div @translateLine1></div>
+      <div @translateLine2></div>
+      <div @translateLine3></div>
+      <img @scaleTriangle src="./assets/icons/triangle.svg" alt="" />
+    </div>
+    <div class="mask">
+      <h1 @displayLogo>
+        <span>retro</span>
+        launcher
+      </h1>
+    </div>
+  </div>
 </div>
