@@ -1,4 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="center center">
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  [@finishSplash]="splashFinish ? 'hide' : 'show'"
+  (@finishSplash.done)="$event.totalTime > 0 && splashScreenEnd()"
+>
   <div fxLayout="row" fxLayoutAlign="center center">
     <div
       class="lines"
@@ -13,7 +18,7 @@
       <img @scaleTriangle src="./assets/icons/triangle.svg" alt="" />
     </div>
     <div class="mask">
-      <h1 @displayLogo>
+      <h1 @displayLogo (@displayLogo.done)="splashFinish = true">
         <span>retro</span>
         launcher
       </h1>

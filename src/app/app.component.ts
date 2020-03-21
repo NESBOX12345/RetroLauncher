@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 
 import { GetSettings } from './shared/store/settings/settings.actions';
 
@@ -9,6 +9,7 @@ import { GetSettings } from './shared/store/settings/settings.actions';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  showSplashScreen = true;
   constructor(private store: Store) {
     this.store.dispatch(new GetSettings());
   }

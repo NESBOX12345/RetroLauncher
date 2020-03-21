@@ -1,1 +1,4 @@
-<retro-splash-screen></retro-splash-screen>
+<retro-splash-screen
+  *ngIf="showSplashScreen"
+  (splashEnd)="showSplashScreen = false"
+></retro-splash-screen>
