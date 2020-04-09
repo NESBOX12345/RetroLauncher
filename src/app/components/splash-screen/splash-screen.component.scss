@@ -1,0 +1,69 @@
+:host > div {
+  height: 100%;
+  > div {
+    position: relative;
+    width: 350px;
+    height: 304px;
+    div.lines {
+      position: absolute;
+      transform: scale(0.5);
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+      > div {
+        background-color: var(--main-txt-color);
+        width: 350px;
+        height: 4px;
+        position: absolute;
+        border-radius: 15px;
+        z-index: 2;
+        &:first-child {
+          transform: translate(-80px, 30px);
+        }
+        &:nth-child(2) {
+          height: 6px;
+          transform: rotate(60deg) translate(110px, -50px);
+          z-index: 0;
+        }
+        &:nth-child(3) {
+          height: 10px;
+          transform: rotate(-60deg) translate(20px, -10px);
+        }
+      }
+      svg {
+        width: 450px;
+        transform: translate(25px, -5px) scale(0.09);
+        z-index: 1;
+      }
+    }
+    div.mask {
+      overflow: hidden;
+      transform: translateX(-88px) skewX(-30deg);
+      z-index: 1;
+      min-width: 400px;
+      h1 {
+        font-family: 'Orbitron';
+        text-transform: uppercase;
+        margin: 0;
+        transform: translateX(420px) skewX(30deg);
+        font-size: 50px;
+        font-weight: 700;
+        color: var(--main-txt-color);
+        text-shadow: 3px 3px var(--main-color), -3px -3px var(--main-color),
+          -3px 3px var(--main-color), 3px -3px var(--main-color),
+          3px -2px var(--main-color), 3px -1px var(--main-color),
+          3px 1px var(--main-color);
+        span {
+          font-family: 'Orbitron';
+          font-size: 50%;
+          font-weight: 400;
+          display: block;
+          font-style: italic;
+          -webkit-text-stroke: 1px var(--accent-text-color);
+          color: var(--accent-text-color);
+          text-shadow: none;
+        }
+      }
+    }
+  }
+}

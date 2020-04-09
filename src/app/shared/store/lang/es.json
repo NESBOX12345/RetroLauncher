@@ -1,0 +1,15 @@
+{
+  "menus": [
+    {
+      "label": "Retro Launcher",
+      "submenu": [
+        { "label": "Acerca de Retro Launcher", "role": "about" },
+        { "type": "separator" },
+        { "label": "Preferencias..." },
+        { "label": "Buscar actualizaciones..." },
+        { "type": "separator" },
+        { "label": "Salir de Retro Launcher", "role": "quit" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="1280.000000pt" height="1123.000000pt" viewBox="0 0 1280.000000 1123.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.15, written by Peter Selinger 2001-2017
+</metadata>
+<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+    </linearGradient>
+<g transform="translate(0.000000,1123.000000) scale(0.100000,-0.100000)"
+fill="url(#grad1)" stroke="none">
+<path d="M6246 11214 c-171 -38 -318 -126 -413 -248 -17 -23 -150 -248 -296
+-501 -450 -784 -1475 -2554 -3497 -6035 -1144 -1971 -1953 -3367 -1973 -3405
+-59 -117 -80 -279 -53 -415 34 -167 93 -276 216 -401 90 -91 168 -141 280
+-180 l65 -23 4105 4 c2258 1 4881 6 5830 10 1561 6 1730 8 1773 23 202 69 348
+201 442 402 57 121 70 179 70 315 0 98 -4 127 -28 196 -20 61 -161 312 -600
+1065 -921 1580 -2526 4344 -3900 6714 l-1275 2200 -83 85 c-94 96 -175 144
+-299 180 -100 29 -270 35 -364 14z"/>
+</g>
+</svg>
