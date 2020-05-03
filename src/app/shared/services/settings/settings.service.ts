@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import * as en from '../../store/lang/en.json';
-import * as es from '../../store/lang/es.json';
-import * as defaultSettings from '../../store/settings/settings.json';
-import { Fs } from '../../types/node';
-import { NodeService } from '../node/node.service';
-import { ElectronService } from '../electron/electron.service';
+import settings from '@store/settings/data/settings';
+import { NodeService } from '@services/node/node.service';
+import { ElectronService } from '@services/electron/electron.service';
 import { Store } from '@ngxs/store';
-import { GetSettings } from '../../store/settings/settings.actions';
-import { Settings } from '../../store/settings/types';
+import { GetPreferences } from '@store/settings/settings.actions';
+import { Fs } from '../../types/node';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +14,9 @@ export class SettingsService {
   fs: Fs;
   path: string;
 
-  private get defaultSettings(): Settings {
-    return (defaultSettings as any).default;
+  private get defaultSettings(): string {
+    settings.interface.language = this.clientLanguage;
+    return JSON.stringify(settings);
   }
 
   public get clientLanguage(): string {
@@ -65,21 +63,19 @@ export class SettingsService {
   private createSettingsFolder(): void {
     this.fs.mkdir(this.path, err => {
       // Get Default Settings
-      this.defaultSettings.interface.language = this.clientLanguage;
-      const settings = JSON.stringify(this.defaultSettings);
       if (!err) {
-        this.writeSettingsFile(settings);
+        this.writeSettingsFile(this.defaultSettings);
       } else {
         // console.error('Error creating settings', err);
         if (err.code === 'EEXIST') {
-          this.writeSettingsFile(settings);
+          this.writeSettingsFile(this.defaultSettings);
         }
       }
     });
   }
 
-  public writeSettingsFile(settings: string): void {
-    this.fs.writeFile(`${this.path}/settings.json`, settings, err => {
+  public writeSettingsFile(_settings: string): void {
+    this.fs.writeFile(`${this.path}/settings.json`, _settings, err => {
       if (err) {
         console.log('Error writing on settings', err);
       } else {
@@ -96,7 +92,7 @@ export class SettingsService {
         if (err) {
           console.log('ERROR: ', err);
         } else {
-          this.store.dispatch(new GetSettings(JSON.parse(data)));
+          this.store.dispatch(new GetPreferences(JSON.parse(data)));
         }
       }
     );

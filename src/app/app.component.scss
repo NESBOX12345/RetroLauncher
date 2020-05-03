@@ -46,6 +46,7 @@
       > div.content {
         margin-left: 280px;
         transition: margin;
+        background-color: var(--main-color);
         > div.not-content {
           height: 100%;
           p {

@@ -12,5 +12,6 @@ export interface Electron {
 
 export interface Remote {
   Menu: any;
+  BrowserWindow: any;
   getCurrentWindow: () => void;
 }

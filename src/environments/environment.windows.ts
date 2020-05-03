@@ -4,8 +4,7 @@
 
 export const environment = {
   production: true,
-  os: 'windows',
-  menus: []
+  os: 'windows'
 };
 
 /*

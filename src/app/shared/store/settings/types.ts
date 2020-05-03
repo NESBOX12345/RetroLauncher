@@ -1,47 +1,35 @@
+import { Option } from 'app/shared/types/global';
+
 export interface SettingsStateModel {
   os: string;
-  settings: Settings;
+  preferences: Preferences;
 }
 
-export interface Settings {
+export interface Preferences {
   account: any;
   interface: Interface;
   cloud: Cloud;
 }
 
-export interface Interface {
+interface Interface {
   language: string;
   theme: Theme;
   start: Start;
 }
 
-export class Theme {
+export interface Theme {
   value: string;
   options: Option[];
   colorSchemes: {
-    [key: string]: ColorScheme[];
+    [key: string]: Option[];
   };
 }
-
-export class Option {
-  label: string;
-  value: string;
-  color: string;
-  default: boolean;
-}
-
-export class ColorScheme {
-  label: string;
-  key: string;
-  value: string;
-}
-
-export class Start {
+interface Start {
   runOnStart: boolean;
   fullscreen: boolean;
 }
 
-export class Cloud {
+interface Cloud {
   syncSettings: boolean;
   syncEmulators: boolean;
   syncSaves: boolean;

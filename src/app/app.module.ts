@@ -10,16 +10,19 @@ import { AppComponent } from './app.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { SettingsState } from './shared/store/settings/settings.store';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { LangState } from '@store/lang/lang.store';
+import { AppRoutingModule } from './app.routing.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    NgxsModule.forRoot([SettingsState], {
+    NgxsModule.forRoot([SettingsState, LangState], {
       developmentMode: !environment.production
     }),
-    NgxsReduxDevtoolsPluginModule.forRoot()
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    AppRoutingModule
   ],
   declarations: [AppComponent, SplashScreenComponent, SidenavComponent],
   providers: [],

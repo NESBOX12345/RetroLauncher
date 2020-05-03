@@ -1,4 +1,6 @@
-export class GetLanguage {
-  static readonly type = 'GetLanguage';
-  constructor(public language: 'en' | 'es') {}
+import { LangData } from './types';
+
+export class SetLanguageData {
+  static readonly type = 'SetLanguageData';
+  constructor(public langData: LangData) {}
 }

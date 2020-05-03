@@ -1,12 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { trigger } from '@angular/animations';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil, filter, take } from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
-import { LoadAppSettings } from '@store/settings/settings.actions';
 import { ElectronService } from '@services/electron/electron.service';
-import { Menu } from './shared/types/menu';
+import { LanguageService } from '@services/language/language.service';
 import { FadeOut } from '@animations/fade';
+import { LoadAppSettings, SetTheme } from '@store/settings/settings.actions';
+import { SettingsState } from '@store/settings/settings.store';
+import { Theme } from '@store/settings/types';
+import { SetLanguageData } from '@store/lang/lang.actions';
+import { LangState } from '@store/lang/lang.store';
+import { Menu } from '@store/lang/types';
 
 @Component({
   selector: 'retro-root',
@@ -16,30 +24,68 @@ import { FadeOut } from '@animations/fade';
     trigger('finishSplash', FadeOut('show', 'hide', '300ms 1s  linear'))
   ]
 })
-export class AppComponent {
-  retroLauncherLogo = 'assets/retro-launcher.png';
+export class AppComponent implements OnDestroy {
+  @Select(SettingsState.language) language$: Observable<string>;
+  @Select(SettingsState.theme) theme$: Observable<Theme>;
+  @Select(LangState.menus) menus$: Observable<Menu[]>;
+  isMainProcess: boolean;
   splashScreenEnd: boolean;
+  animationStart: boolean;
   animationEnd: boolean;
-  menus: Menu[];
-  constructor(private store: Store, private electronService: ElectronService) {
+  loading = true;
+  destroy$ = new Subject();
+
+  constructor(
+    private store: Store,
+    private router: Router,
+    private title: Title,
+    private electronService: ElectronService,
+    private languageService: LanguageService
+  ) {
     if (this.electronService.isElectronApp) {
-      this.store.dispatch(new LoadAppSettings());
-      // this.createMenus();
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((end: NavigationEnd) => {
+          if (end.url === '/') {
+            this.isMainProcess = true;
+          } else {
+            this.isMainProcess = false;
+            // Connect to menust store
+            // this.title.setTitle(end.url.replace('/', ''));
+          }
+          // Load app settings
+          this.subscriptions();
+          this.store.dispatch(new LoadAppSettings());
+        });
     }
   }
 
-  createMenus(): void {
-    const menu = this.electronService.remote.Menu.buildFromTemplate(this.menus);
-    this.electronService.remote.Menu.setApplicationMenu(menu);
-    window.addEventListener(
-      'contextmenu',
-      e => {
-        console.log('ctx: ', e);
-        e.preventDefault();
-
-        menu.popup({ window: this.electronService.remote.getCurrentWindow() });
-      },
-      false
-    );
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
+
+  subscriptions(): void {
+    this.language$.pipe(takeUntil(this.destroy$)).subscribe(language => {
+      // Load app language
+      const langData = this.languageService.language(language);
+      this.store.dispatch(new SetLanguageData(langData));
+    });
+    this.theme$.pipe(takeUntil(this.destroy$)).subscribe(theme => {
+      if (theme) {
+        const { value } = theme;
+        const scheme = theme.colorSchemes[value];
+        this.store.dispatch(new SetTheme(scheme));
+        this.electronService.backgroundColor$.next(scheme[0].value);
+        this.loading = false;
+      }
+    });
+    this.menus$.pipe(take(1)).subscribe(menus => {
+      if (this.isMainProcess) {
+        this.electronService.setAppMenus(menus);
+      }
+    });
+  }
+
+  // setAppMenusEvent(menus: Menu[]): Menu[] {}
 }

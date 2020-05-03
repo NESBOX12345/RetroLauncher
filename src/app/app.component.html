@@ -1,23 +1,31 @@
-<!-- SPLASH SCREEN -->
-<retro-splash-screen
-  *ngIf="!animationEnd"
-  [@finishSplash]="!splashScreenEnd ? 'show' : 'hide'"
-  (@finishSplash.done)="$event.totalTime > 0 && (animationEnd = true)"
-  (splashEnd)="splashScreenEnd = true"
-></retro-splash-screen>
-<!-- LANDING PAGE -->
-<div>
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <header fxLayout="row wrap" fxLayoutAlign="start center">
-      <retro-splash-screen [animated]="false"></retro-splash-screen>
-    </header>
-    <div></div>
-  </div>
-  <div fxLayout="row" class="content-wrapper">
-    <retro-sidenav></retro-sidenav>
-    <div fxFlex="100%" class="content">
-      <!-- <div class="not-content" fxLayoutAlign="center center" fxLayout="column">
+<ng-container *ngIf="!loading && !modalWindows.isActivated">
+  <!-- SPLASH SCREEN -->
+  <retro-splash-screen
+    *ngIf="!animationEnd"
+    [@finishSplash]="!splashScreenEnd ? 'show' : 'hide'"
+    (@finishSplash.start)="
+      $event.fromState === 'show' && (animationStart = true)
+    "
+    (@finishSplash.done)="$event.totalTime > 0 && (animationEnd = true)"
+    (splashEnd)="splashScreenEnd = true"
+  ></retro-splash-screen>
+  <!-- LANDING PAGE -->
+  <div
+    [ngStyle]="
+      animationStart ? { visibility: 'visible' } : { visibility: 'hidden' }
+    "
+  >
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <header fxLayout="row wrap" fxLayoutAlign="start center">
+        <retro-splash-screen [animated]="false"></retro-splash-screen>
+      </header>
+      <div></div>
+    </div>
+    <div fxLayout="row" class="content-wrapper">
+      <retro-sidenav></retro-sidenav>
+      <div fxFlex="100%" class="content">
+        <!-- <div class="not-content" fxLayoutAlign="center center" fxLayout="column">
         <p>Looks like you don't have any emulator installed...</p>
         <h1 fxLayout="row" fxLayoutAlign="center center">
           <span fxLayoutAlign="center center">
@@ -26,6 +34,9 @@
           ADD AN EMULATOR
         </h1>
       </div> -->
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
+<!-- HASH ROUTING FOR NEW WINDOWS -->
+<router-outlet #modalWindows="outlet"></router-outlet>
